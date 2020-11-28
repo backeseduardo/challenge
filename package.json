@@ -1,0 +1,11 @@
+{
+  "name": "challenge-delivery-much",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
