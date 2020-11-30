@@ -12,14 +12,24 @@ export interface RecipeResponse {
   }>;
 }
 
+export interface FindRecipeResponse {
+  title: string;
+  link: string;
+  ingredients: string;
+}
+
 export default class RecipeService {
   private baseUrl = 'http://www.recipepuppy.com/api/';
 
-  async find(ingredients: string[]): Promise<RecipeResponse> {
+  async find(ingredients: string[]): Promise<FindRecipeResponse[]> {
     const response = await axios.get<RecipeResponse>(
       `${this.baseUrl}?i=${ingredients.join(',')}`,
     );
 
-    return response.data;
+    return response.data.results.map((result) => ({
+      title: result.title,
+      ingredients: result.ingredients,
+      link: result.href,
+    }));
   }
 }
