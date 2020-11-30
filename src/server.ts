@@ -1,38 +1,35 @@
-import bodyParser from 'body-parser';
-import express, { Express } from 'express';
+import { Server } from '@overnightjs/core';
+import { Logger } from '@overnightjs/logger';
+import { json } from 'body-parser';
+import RecipeFactory from './factories/recipe';
 
-export default class Server {
-  private app!: Express;
-
-  private port!: number;
-
-  constructor(port: number = 3000) {
-    this.port = port;
+export default class ServerSetup extends Server {
+  constructor() {
+    super(process.env.NODE_ENV === 'development');
   }
 
   init() {
-    this.setupExpress();
+    this.setupMiddlewares();
+    this.setupControllers();
   }
 
-  private setupExpress() {
-    this.app = express();
-
-    this.app.use(bodyParser.json());
-
-    this.app.get('/', (req, res) => {
-      res.send({
-        message: 'Hello world',
-      });
-    });
+  private setupMiddlewares() {
+    this.app.use(json());
   }
 
-  getApp(): Express | undefined {
+  private setupControllers() {
+    const recipeController = new RecipeFactory().build();
+
+    this.addControllers([recipeController]);
+  }
+
+  getApp() {
     return this.app;
   }
 
-  start(): void {
-    this.app.listen(this.port, () => {
-      console.log(`Ready at http://localhost:${this.port}`);
+  start(port: number = 3000): void {
+    this.app.listen(port, () => {
+      Logger.Imp(`Ready at http://localhost:${port}`);
     });
   }
 }
