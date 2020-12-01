@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IRecipe } from '../dtos/recipe';
 
 export interface RecipeResponse {
   title: string;
@@ -12,24 +13,19 @@ export interface RecipeResponse {
   }>;
 }
 
-export interface FindRecipeResponse {
-  title: string;
-  link: string;
-  ingredients: string;
-}
-
 export default class RecipeService {
   private baseUrl = 'http://www.recipepuppy.com/api/';
 
-  async find(ingredients: string[]): Promise<FindRecipeResponse[]> {
+  async find(keywords: string[]): Promise<IRecipe[]> {
     const response = await axios.get<RecipeResponse>(
-      `${this.baseUrl}?i=${ingredients.join(',')}`,
+      `${this.baseUrl}?i=${keywords.join(',')}`,
     );
 
     return response.data.results.map((result) => ({
       title: result.title,
       ingredients: result.ingredients,
       link: result.href,
+      gif: '', // TODO (backes): get the gif
     }));
   }
 }

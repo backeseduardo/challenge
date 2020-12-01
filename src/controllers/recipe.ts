@@ -6,7 +6,7 @@ export interface GetResponse {
   keywords: string[];
   recipes: Array<{
     title: string;
-    ingredients: string[];
+    ingredients: string;
     link: string;
     gif: string;
   }>;
@@ -21,7 +21,10 @@ export default class RecipeController {
   }
 
   @Get()
-  async get(request: Request, response: Response): Promise<void> {
+  async get(
+    request: Request,
+    response: Response<GetResponse | { message: string }>,
+  ): Promise<void> {
     if (!request.query?.i) {
       response.status(400).send({
         message: 'At least one ingredient should be sended',
@@ -30,10 +33,13 @@ export default class RecipeController {
       return;
     }
 
-    const ingredients: string[] = (request.query?.i as string)?.split(',');
+    const keywords: string[] = (request.query?.i as string)?.split(',');
 
-    const recipes = await this.recipeService.find(ingredients);
+    const recipes = await this.recipeService.find(keywords);
 
-    response.send(recipes);
+    response.send({
+      keywords,
+      recipes,
+    });
   }
 }

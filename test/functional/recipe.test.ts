@@ -18,13 +18,15 @@ describe('RecipeController', () => {
     );
 
     expect(status).toBe(200);
-    expect(body).toStrictEqual(
-      recipepuppyOnionsGarlic.results.map((result) => ({
+    expect(body).toStrictEqual({
+      keywords: ['onions', 'garlic'],
+      recipes: recipepuppyOnionsGarlic.results.map((result) => ({
         title: result.title,
         ingredients: result.ingredients,
         link: result.href,
+        gif: '',
       })),
-    );
+    });
   });
 
   it('should return an status 400 if the parameter i is sended', async () => {
