@@ -4,7 +4,7 @@ import recipepuppyOnionsGarlic from '../fixtures/recipepuppy-onions-garlic.json'
 describe('RecipeController', () => {
   beforeEach(() => {
     nock('http://www.recipepuppy.com', {})
-      .get('/api/?i=onions,garlic')
+      .get((url) => url.includes('api'))
       .reply(200, recipepuppyOnionsGarlic);
   });
 
@@ -29,14 +29,22 @@ describe('RecipeController', () => {
     });
   });
 
-  it('should return an status 400 if the parameter i is sended', async () => {
+  it('should return status 400 if the parameter i is sended', async () => {
     const { status } = await global.testRequest.get('/recipes/');
 
     expect(status).toBe(400);
   });
 
-  it('should return an status 400 if no parameters are sended', async () => {
+  it('should return status 400 if no parameters are sended', async () => {
     const { status } = await global.testRequest.get('/recipes/?i=');
+
+    expect(status).toBe(400);
+  });
+
+  it('should return status 400 if more than 3 parameters are sended', async () => {
+    const { status } = await global.testRequest.get(
+      '/recipes/?i=onions,garlic,tomato,pasta',
+    );
 
     expect(status).toBe(400);
   });

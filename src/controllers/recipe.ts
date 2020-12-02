@@ -35,6 +35,14 @@ export default class RecipeController {
 
     const keywords: string[] = (request.query?.i as string)?.split(',');
 
+    if (keywords.length > 3) {
+      response.status(400).send({
+        message: 'Maximum of 3 parameters are expected',
+      });
+
+      return;
+    }
+
     const recipes = await this.recipeService.find(keywords);
 
     response.send({
