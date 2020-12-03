@@ -1,6 +1,8 @@
 import { Controller, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import { IRecipe } from '../dtos/recipe';
+import GifServiceUnavaliableError from '../errors/gif-service-unavailable';
+import RecipePuppyUnavailableError from '../errors/recipe-puppy-unavailable';
 import RecipeService from '../services/recipe';
 
 export interface GetResponse {
@@ -39,11 +41,26 @@ export default class RecipeController {
       return;
     }
 
-    const recipes = await this.recipeService.find(keywords);
+    try {
+      const recipes = await this.recipeService.find(keywords);
 
-    response.send({
-      keywords,
-      recipes,
-    });
+      response.send({
+        keywords,
+        recipes,
+      });
+    } catch (error) {
+      if (
+        error instanceof RecipePuppyUnavailableError ||
+        error instanceof GifServiceUnavaliableError
+      ) {
+        response.status(503).send({
+          message: error.message,
+        });
+
+        return;
+      }
+
+      response.status(500).send();
+    }
   }
 }
