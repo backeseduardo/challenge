@@ -1,11 +1,18 @@
 import nock from 'nock';
+import gifGarlic from '../fixtures/gif-garlic.json';
 import recipepuppyOnionsGarlic from '../fixtures/recipepuppy-onions-garlic.json';
 
 describe('RecipeController', () => {
   beforeEach(() => {
     nock('http://www.recipepuppy.com', {})
+      .persist()
       .get((url) => url.includes('api'))
       .reply(200, recipepuppyOnionsGarlic);
+
+    nock('https://api.giphy.com', {})
+      .persist()
+      .get((url) => url.includes('v1/gifs/search'))
+      .reply(200, gifGarlic);
   });
 
   afterEach(() => {
@@ -24,7 +31,7 @@ describe('RecipeController', () => {
         title: result.title,
         ingredients: result.ingredients,
         link: result.href,
-        gif: '',
+        gif: gifGarlic.data[0].images.original.url,
       })),
     });
   });
