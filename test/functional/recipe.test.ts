@@ -27,12 +27,14 @@ describe('RecipeController', () => {
     expect(status).toBe(200);
     expect(body).toStrictEqual({
       keywords: ['onions', 'garlic'],
-      recipes: recipepuppyOnionsGarlic.results.map((result) => ({
-        title: result.title,
-        ingredients: result.ingredients,
-        link: result.href,
-        gif: gifGarlic.data[0].images.original.url,
-      })),
+      recipes: recipepuppyOnionsGarlic.results.map((result) => {
+        return {
+          title: result.title,
+          ingredients: result.ingredients.split(', ').sort(),
+          link: result.href,
+          gif: gifGarlic.data[0].images.original.url,
+        };
+      }),
     });
   });
 

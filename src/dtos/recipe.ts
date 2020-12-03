@@ -1,6 +1,6 @@
 export interface IRecipe {
   title: string;
   link: string;
-  ingredients: string;
+  ingredients: string[];
   gif: string;
 }

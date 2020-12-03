@@ -31,7 +31,7 @@ export default class RecipeService {
     const recipes = await Promise.all(
       response.data.results.map(async (result) => ({
         title: result.title,
-        ingredients: result.ingredients,
+        ingredients: result.ingredients.split(', ').sort(),
         link: result.href,
         gif: await this.gifService.find(result.title),
       })),

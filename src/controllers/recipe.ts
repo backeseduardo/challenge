@@ -1,15 +1,11 @@
 import { Controller, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
+import { IRecipe } from '../dtos/recipe';
 import RecipeService from '../services/recipe';
 
 export interface GetResponse {
   keywords: string[];
-  recipes: Array<{
-    title: string;
-    ingredients: string;
-    link: string;
-    gif: string;
-  }>;
+  recipes: IRecipe[];
 }
 
 @Controller('recipes')
