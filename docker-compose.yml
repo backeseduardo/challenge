@@ -5,4 +5,4 @@ services:
     build: .
     env_file: .env
     ports:
-      - ${PORT}:${PORT}
+      - ${PORT}:3000
