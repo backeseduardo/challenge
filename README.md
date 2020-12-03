@@ -8,14 +8,7 @@
 
 ## Arquivo .env
 
-Dentro do arquivo `.env` você deve colocar duas variáveis de ambiente:
-
-```
-PORT=3000
-GIF_API_KEY=
-```
-
-Psiu: eu não sei se você precisa da chave do Giphy, se você precisar ela é essa `qfU2svKBNLHFxF149ErnLXiwrndGJ6lL`, mas essa chave é secreta, então não conta para ninguém ok? Fica só entre nós ;)
+Renomeie o arquivo `.env.example` para `.env`
 
 ## Você está utilizando um sistema unix?
 
