@@ -9,8 +9,7 @@
     "dev": "tsnd --respawn --transpile-only src/index.ts",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix",
-    "test": "jest",
-    "test:functional": "jest --projects ./test --runInBand"
+    "test": "jest --projects ./test --runInBand"
   },
   "keywords": [],
   "author": "Eduardo Backes",
