@@ -28,9 +28,9 @@ export default class ServerSetup extends Server {
     return this.app;
   }
 
-  start(port: number = 3000): void {
-    this.app.listen(port, () => {
-      Logger.Imp(`Ready at http://localhost:${port}`);
+  start(): void {
+    this.app.listen(process.env.PORT, () => {
+      Logger.Imp(`Ready at http://localhost:${process.env.PORT}`);
     });
   }
 }

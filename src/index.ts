@@ -1,3 +1,4 @@
+import './config/env';
 import Server from './server';
 
 const server = new Server();
